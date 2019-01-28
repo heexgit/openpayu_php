@@ -19,7 +19,7 @@ class AuthType_Oauth implements AuthType
         }
 
         try {
-            $this->oauthResult = OpenPayU_Oauth::getAccessToken();
+            $this->oauthResult = OpenPayU_Oauth::getAccessToken($clientId, $clientSecret);
         } catch (OpenPayU_Exception $e) {
             throw new OpenPayU_Exception('Oauth error: [code=' . $e->getCode() . '], [message=' . $e->getMessage() . ']');
         }
