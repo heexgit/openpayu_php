@@ -24,18 +24,22 @@ class OauthCacheFile implements OauthCacheInterface
 
     public function get($key)
     {
-        $cache = @file_get_contents($this->directory . md5($key));
+    	$filePath = $this->directory.md5($key);
+    	if (file_exists($filePath))
+        	$cache = file_get_contents($filePath);
+    	else
+    		$cache = false;
         return $cache === false ? null : unserialize($cache);
     }
 
     public function set($key, $value)
     {
-        return @file_put_contents($this->directory . md5($key), serialize($value));
+        return file_put_contents($this->directory . md5($key), serialize($value));
     }
 
     public function invalidate($key)
     {
-        return @unlink($this->directory . md5($key));
+    	$filePath = $this->directory.md5($key);
+        return file_exists($filePath) ? unlink($filePath) : true;
     }
-
 }
